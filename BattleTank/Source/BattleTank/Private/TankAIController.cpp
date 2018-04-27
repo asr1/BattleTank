@@ -7,18 +7,33 @@ ATank * ATankAIController::GetControlledTank() const
 	return Cast<ATank>(GetPawn());
 }
 
-
-void ATankAIController::BeginPlay()
+ATank* ATankAIController::GetPlayerTank() const
 {
-	Super::BeginPlay();
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
+	auto  PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerPawn)
 	{
-		//AI Tank controller should never be spawned without a tank
-		UE_LOG(LogTemp, Error, TEXT("AI Tank Controller spawned without a tank"));
+		UE_LOG(LogTemp, Warning, TEXT("No player tank found"));
+		return nullptr;
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AI is controlling: %s"), *(ControlledTank->GetName()));
-	 }
+		return Cast<ATank>(PlayerPawn);
+	}
+
+}
+
+void ATankAIController::BeginPlay()
+{
+	//AI Tank controller should never be spawned without a tank
+	Super::BeginPlay();
+	auto PlayerTank = GetPlayerTank();
+	if (!PlayerTank)
+	{
+		UE_LOG(LogTemp, Error, TEXT("AI Tank cannot find player tank"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player tank is %s"), *(PlayerTank->GetName()));
+	}
+
 }
