@@ -31,4 +31,12 @@ private:
 	///Return an out parameter as well as true if it hits landscape, false if it hits sky
 	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
 
+	UPROPERTY(EditAnywhere)
+	float CrosshairXLocation = .5f;
+
+	UPROPERTY(EditAnywhere)
+	float CrosshairYLocaiton = 1.f / 3.f;
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
 };
