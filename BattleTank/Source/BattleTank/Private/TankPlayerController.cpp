@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Engine/World.h"
+#include "Camera/PlayerCameraManager.h"
 #include "TankPlayerController.h"
 
 
@@ -32,9 +34,9 @@ void ATankPlayerController::Tick(float DeltaTime)
 }
 
 ///Line trace through the dot from the barrel. True if hits landscape
-bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
+bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	OutHitLocation = FVector(1, 1, 1);
+	HitLocation = FVector(1, 1, 1);
 
 	//Find the crosshair position in pixel coordinates
 	int32 ViewportSizeX, ViewportSizeY;
@@ -44,12 +46,29 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *(LookDirection.ToString()))
+		//Line-Trace along that look direction to check hit (up to max range)
+		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 
-	//Line-Trace along that look direction to check hit (up to max range)
 
 	return true;
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility))
+	{
+		HitLocation = HitResult.Location;
+		return true;
+	}
+	else
+	{
+		HitLocation = FVector(0);
+		return false;
+	}
 }
 
 ///"De-Project" the screen position of the crosshair to a world direction
