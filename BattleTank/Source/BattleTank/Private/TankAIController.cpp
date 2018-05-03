@@ -7,6 +7,17 @@ ATank * ATankAIController::GetControlledTank() const
 	return Cast<ATank>(GetPawn());
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	auto PlayerTank = GetPlayerTank();
+	if (PlayerTank)
+	{
+		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+	}
+}
+
+
 ATank* ATankAIController::GetPlayerTank() const
 {
 	auto  PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -19,6 +30,7 @@ ATank* ATankAIController::GetPlayerTank() const
 	{
 		return Cast<ATank>(PlayerPawn);
 	}
+
 
 }
 

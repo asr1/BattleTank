@@ -20,6 +20,8 @@ private:
 
 	ATank* GetControlledTank() const;
 
+	void Tick(float DeltaTime);
+
 	ATank* GetPlayerTank() const;
 	
 };

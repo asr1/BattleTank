@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankPlayerController.h"
 #include "Engine/World.h"
 #include "Camera/PlayerCameraManager.h"
-#include "TankPlayerController.h"
 
 
 ATank * ATankPlayerController::GetControlledTank() const
@@ -22,9 +22,6 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing: %s"), *(ControlledTank->GetName()));
 	}
-
-
-	;
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -49,7 +46,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		//Line-Trace along that look direction to check hit (up to max range)
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
-
 
 	return true;
 }
@@ -79,6 +75,9 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
 }
 
+///Get world location of linetrace through crosshar
+///if it hits landscape, 
+///Controlled tank should aim at that point
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) { return; }
@@ -87,12 +86,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(Hitlocation)) //Will ray-trace
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *Hitlocation.ToString()); 
-		//TODO tell controlled tank to aim at this point
+		GetControlledTank()->AimAt(Hitlocation);
 	}
-
-	//Get world location of linetrace through crosshar
-		//if it hits landscape, 
-			//Controlled tank should aim at that point
-
 }
