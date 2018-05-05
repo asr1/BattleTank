@@ -13,10 +13,20 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	Barrel = BarrelToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector TargetLocation)
 {
-	auto OurTankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *(TargetLocation.ToString()))
+	if (Barrel)
+	{
+		auto OurTankName = GetOwner()->GetName();
+		auto BarrelLocation = Barrel->GetComponentLocation().ToString();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankName, *(TargetLocation.ToString()), *BarrelLocation)
+
+	}
 }
 
 // Called when the game starts
