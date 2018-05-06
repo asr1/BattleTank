@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values for this component's properties
@@ -14,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -27,31 +28,25 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 		FVector OutLaunchVelocity;
 
 
-		if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, TargetLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
+		if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, TargetLocation, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 			auto TankName = GetOwner()->GetName();
-			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *(AimDirection.ToString()))
+			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *TankName, *(AimDirection.ToString()));
+			MoveBarrelTowards(AimDirection);
 		}
-
-
 	}
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	Super::BeginPlay();
+	//Find difference between current rotation and AimDirection
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	// ...
-	
-}
+	Barrel->Elevate(5); //TODO remove magic number
 
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 }
 
