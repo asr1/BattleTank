@@ -36,7 +36,8 @@ void ATank::Fire()
 	//Spawn a projectile at the barrel's socket location
 	auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	auto StartRotation = Barrel->GetSocketRotation(FName("Projectile"));
-	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, StartLocation, StartRotation);
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, StartLocation, StartRotation);
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called when the game starts or when spawned
