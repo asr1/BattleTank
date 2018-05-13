@@ -35,7 +35,6 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 		if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, TargetLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-			auto TankName = GetOwner()->GetName();
 			MoveBarrelTowards(AimDirection);
 		}
 	}

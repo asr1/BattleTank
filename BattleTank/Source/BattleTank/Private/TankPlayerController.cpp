@@ -34,8 +34,6 @@ void ATankPlayerController::Tick(float DeltaTime)
 ///Line trace through the dot from the barrel. True if hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	HitLocation = FVector(1, 1, 1);
-
 	//Find the crosshair position in pixel coordinates
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
