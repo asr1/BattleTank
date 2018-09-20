@@ -8,6 +8,7 @@
 
 class AProjectile;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class UTankTurret;
 class UTankBarrel;
 
@@ -40,6 +41,9 @@ protected:
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
+
 private:	
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -52,8 +56,6 @@ private:
 
 	//Local barrel reference for spawning reference
 	UTankBarrel* Barrel = nullptr;
-
-
 
 	double LastFireTime = 0;
 };
