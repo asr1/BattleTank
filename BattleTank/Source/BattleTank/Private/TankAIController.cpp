@@ -12,8 +12,10 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (PlayerTank)
 	{
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
 
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		// UE_LOG(LogTemp, Warning, TEXT("Player location at: %s"), *(PlayerTank->GetActorLocation().ToString()));
 		//TODO limit fire rate
 		ControlledTank->Fire();
 	}

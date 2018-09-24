@@ -21,4 +21,7 @@ private:
 
 	void Tick(float DeltaTime);
 
+	// How close can the AI tank get (in cm?)
+	float AcceptanceRadius = 30 * 100;
+
 };
