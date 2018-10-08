@@ -40,5 +40,5 @@ void ATank::Fire()
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay(); // Blueprint is the parent, needed for that to run!
 }
