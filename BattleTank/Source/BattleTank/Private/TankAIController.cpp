@@ -2,23 +2,21 @@
 
 #include "TankAIController.h"
 #include "Tank.h"
+#include "Engine/World.h"
 #include "AIController.h"
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (!ensure(PlayerTank)) { return; }
 	auto ControlledTank = Cast<ATank>(GetPawn());
 
-	if (PlayerTank)
-	{
-		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
+	MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in CM
 
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		// UE_LOG(LogTemp, Warning, TEXT("Player location at: %s"), *(PlayerTank->GetActorLocation().ToString()));
-		//TODO limit fire rate
-		ControlledTank->Fire();
-	}
+	ControlledTank->AimAt(PlayerTank->GetActorLocation());
+	//TODO limit fire rate
+	ControlledTank->Fire();
 }
 
 void ATankAIController::BeginPlay()

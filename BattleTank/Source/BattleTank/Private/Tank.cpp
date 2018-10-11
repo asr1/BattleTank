@@ -15,16 +15,16 @@ ATank::ATank()
 
 void ATank::AimAt(FVector TargetLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(TargetLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
-	
+	if (!ensure(Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (Barrel && isReloaded) 
+	if (isReloaded) 
 	{ 
 		//Spawn a projectile at the barrel's socket location
 		auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
