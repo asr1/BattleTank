@@ -12,6 +12,14 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+// Called when the game starts or when spawned
+void ATank::BeginPlay()
+{
+	Super::BeginPlay(); // Blueprint is the parent, needed for that to run!
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+}
+
 void ATank::AimAt(FVector TargetLocation)
 {
 	if (!ensure(TankAimingComponent)) { return; }
@@ -34,10 +42,4 @@ void ATank::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 
-}
-
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay(); // Blueprint is the parent, needed for that to run!
 }
