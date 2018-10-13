@@ -12,8 +12,7 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-
-void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector TargetLocation)
 {
 	if (Barrel && Turret)
 	{

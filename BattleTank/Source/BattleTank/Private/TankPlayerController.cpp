@@ -3,19 +3,14 @@
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
-#include "Tank.h"
 #include "Camera/PlayerCameraManager.h"
 
-
-ATank * ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
+class UTankAimingComponent;
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
 }
@@ -40,7 +35,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		//Line-Trace along that look direction to check hit (up to max range)
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
-
 	return true;
 }
 
@@ -64,7 +58,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 ///"De-Project" the screen position of the crosshair to a world direction
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
-
 	FVector CameraWorldLocation; //To be discarded
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
 }
@@ -74,12 +67,13 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 ///Controlled tank should aim at that point
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector Hitlocation; //Out parameter
 
 	if (GetSightRayHitLocation(Hitlocation)) //Will ray-trace
 	{
-		GetControlledTank()->AimAt(Hitlocation);
+		AimingComponent->AimAt(Hitlocation);
 	}
 }

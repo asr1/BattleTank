@@ -4,7 +4,6 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "Engine/World.h"
-#include "TankAimingComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -16,14 +15,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // Blueprint is the parent, needed for that to run!
-
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-}
-
-void ATank::AimAt(FVector TargetLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(TargetLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
@@ -41,5 +32,4 @@ void ATank::Fire()
 	
 		LastFireTime = FPlatformTime::Seconds();
 	}
-
 }
