@@ -30,6 +30,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::BeginPlay()
 {
 	// Ensure first fire is after first reload
@@ -79,7 +84,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 
 	//Always yaw the shortest way
-	auto yaw = FMath::Abs(DeltaRotator.Yaw);
+	auto yaw = DeltaRotator.Yaw;
 	if (yaw > 180) { yaw = -yaw; }
 	Turret->Rotate(yaw);
 }

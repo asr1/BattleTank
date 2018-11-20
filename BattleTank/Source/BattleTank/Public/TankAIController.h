@@ -20,16 +20,13 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* AimingComponent = nullptr;
 
+	// How close can the AI tank get (in cm?)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float AcceptanceRadius = 80 * 100;
+
 private:
 	virtual void BeginPlay() override;
 
 	void Tick(float DeltaTime);
-
-	// TODO remove once firing is out of Tank
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000;
-
-	// How close can the AI tank get (in cm?)
-	float AcceptanceRadius = 30 * 100;
 
 };
