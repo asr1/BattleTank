@@ -75,7 +75,7 @@ void UTankAimingComponent::Initialize(UTankBarrel* Barrel, UTankTurret* Turret)
 	this->Turret = Turret;
 }
 
-int UTankAimingComponent::GetRoundsLeft() const
+int32 UTankAimingComponent::GetRoundsLeft() const
 {
 	return RoundsLeft;
 }
