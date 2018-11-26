@@ -1,14 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Alex Rinehart 2018
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "AIController.h"
+#include "Tank.h" // So we can implement OnDeath
 
 void ATankAIController::BeginPlay()
 {
 	//AI Tank controller should never be spawned without a tank
 	Super::BeginPlay();
+}
+
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		// subscribe our local method to the dank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath()
+{
+	if (!GetPawn()) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
 
 void ATankAIController::Tick(float DeltaTime)

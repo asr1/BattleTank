@@ -25,7 +25,12 @@ protected:
 	float AcceptanceRadius = 80 * 100;
 
 private:
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	virtual void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
 
 	void Tick(float DeltaTime);
 

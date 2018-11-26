@@ -37,6 +37,11 @@ private:
 	///Return an out parameter as well as true if it hits landscape, false if it hits sky
 	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
 
+	virtual void SetPawn(APawn * InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	UPROPERTY(EditDefaultsOnly)
 	float CrosshairXLocation = .5f;
 
