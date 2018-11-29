@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Engine/World.h"
 #include "Projectile.h"
 #include "Kismet/GameplayStatics.h"
 
