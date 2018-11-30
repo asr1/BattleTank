@@ -41,6 +41,7 @@ EFiringState UTankAimingComponent::GetFiringState() const
 
 void UTankAimingComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	// Ensure first fire is after first reload
 	LastFireTime = FPlatformTime::Seconds();
 }

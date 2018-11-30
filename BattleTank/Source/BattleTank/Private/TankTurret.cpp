@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankTurret.h"
+#include "Engine/World.h"
 
 //Relative speed is between -1 and 1, where 1 is max speed forward and -1 is max speed backwards
 void UTankTurret::Rotate(float RelativeSpeed)

@@ -22,15 +22,18 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-
+	UE_LOG(LogTemp, Warning, TEXT("Beginning play!"));
 	SetupConstraint();
 }
 
 void ASprungWheel::SetupConstraint()
 {
 	if (!GetAttachParentActor()) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("Donkey running play!"));
+	UE_LOG(LogTemp, Warning, TEXT("Not Null: %s"), *GetAttachParentActor()->GetName());
 	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
 	if (!BodyRoot) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("Donkey continue oxen"));
 	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
 }
 
@@ -40,4 +43,3 @@ void ASprungWheel::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
