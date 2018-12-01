@@ -53,7 +53,6 @@ void UTankAimingComponent::AimAt(FVector TargetLocation)
 		auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 		FVector OutLaunchVelocity;
 
-
 		if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, TargetLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			AimDirection = OutLaunchVelocity.GetSafeNormal();
